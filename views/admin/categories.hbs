@@ -1,0 +1,14 @@
+<h1>{{title}}</h1>
+
+{{#if categories.length}}
+{{#each categories}}
+<div class="category">
+    <h3>{{name}}</h3>
+    <img src="{{img}}" alt="{{img}}">
+</div>
+{{/each}}
+{{else}}
+<h2>Categories are empty</h2>
+{{/if}}
+
+<a href="/api/category/add">Add new category</a>
