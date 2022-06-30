@@ -2,7 +2,7 @@ const Joi = require('joi')
 const Category = require('../../../models/category')
 
 module.exports = {
-    home: async (req, res) => {
+    async homeCategory(req, res) {
         const categories = await Category.find()
         res.render('admin/categories', {
             title: 'Categories page',
@@ -11,7 +11,7 @@ module.exports = {
         })
     },
 
-    add: async (req, res) => {
+    async addCategory(req, res) {
         const error = validateCategory(req.body)
 
         if (!!error) {
@@ -28,7 +28,7 @@ module.exports = {
         res.redirect('/api/category')
     },
 
-    getAddCategory: async (req, res) => {
+    async getAddCategory(req, res) {
         res.render('admin/addCategory', {
             title: 'Add category',
             layout: '../admin/layouts/main'
