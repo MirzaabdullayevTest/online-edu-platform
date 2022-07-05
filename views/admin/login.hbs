@@ -1,4 +1,7 @@
 <div class="content">
+    {{#if error}}
+    <p class="error">{{error}}</p>
+    {{/if}}
     <h1>Sign-in</h1>
 
     <form action="/api/login" method="post">
