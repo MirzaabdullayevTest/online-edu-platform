@@ -1,6 +1,7 @@
 const Joi = require('joi')
 const Admin = require('../../../models/admin')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 module.exports = {
     async getLogin(req, res) {
@@ -35,10 +36,19 @@ module.exports = {
                 return
             }
 
+            const token = jwt.sign(
+                { id: admin._id },
+                process.env.JWT_SECRET_KEY,
+                {
+                    expiresIn: '300s'
+                }
+            )
+
             req.session.authen = true
             req.session.admin = admin
             req.session.save((err) => {
                 if (err) throw err;
+                res.header('auth-token', token)
                 res.redirect('/api')
             })
         } catch (error) {
@@ -53,10 +63,10 @@ module.exports = {
         })
     },
     async register(req, res) {
-        if(req.file){
+        if (req.file) {
             req.body.adminImg = req.file.filename
         }
-        
+
         const error = registerValidation(req.body)
 
         if (!!error) {

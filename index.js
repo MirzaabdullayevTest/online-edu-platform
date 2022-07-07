@@ -6,6 +6,7 @@ const morgan = require('morgan')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session);
 const flash = require('connect-flash')
+const compression = require('compression')
 
 // dotenv connecting
 require('dotenv').config()
@@ -46,12 +47,13 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(session({
-    secret: 'some secret key',
+    secret: process.env.SECRET_KEY,
     resave: false,
     saveUninitialized: false,
     store
 }))
 app.use(flash())
+app.use(compression())
 
 // Logger
 if (process.env.NODE_ENV === 'development') {
