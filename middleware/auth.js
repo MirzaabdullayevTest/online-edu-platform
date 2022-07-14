@@ -6,9 +6,14 @@ module.exports = (req, res, next) => {
         return
     }
 
-    // const id = jwt.verify(req.header('auth-token'), process.env.JWT_SECRET_KEY)
-    // console.log(id);
-    // res.locals.id = id
+    try {
+        const decoded = jwt.verify(req.session.token, process.env.JWT_SECRET_KEY)
 
-    next()
+        res.locals.id = decoded.id
+        next()
+    } catch (error) {
+        console.log(error.message);
+        req.flash('error', error.message)
+        return res.redirect('/api/login')
+    }
 }

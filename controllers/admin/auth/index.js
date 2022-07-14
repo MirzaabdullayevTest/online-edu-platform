@@ -46,6 +46,7 @@ module.exports = {
 
             req.session.authen = true
             req.session.admin = admin
+            req.session.token = token
             req.session.save((err) => {
                 if (err) throw err;
                 res.header('auth-token', token)
